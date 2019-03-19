@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE LIMES SYSTEM "limes.dtd">
+<LIMES>
+	<PREFIX>
+		<NAMESPACE>http://www.w3.org/1999/02/22-rdf-syntax-ns#</NAMESPACE>
+		<LABEL>rdf</LABEL>
+	</PREFIX>
+
+	<PREFIX>
+		<NAMESPACE>http://www.w3.org/2002/07/owl#</NAMESPACE>
+		<LABEL>owl</LABEL>
+	</PREFIX>
+
+	<PREFIX>
+	<NAMESPACE>http://data.linkedct.org/resource/linkedct/</NAMESPACE>
+	<LABEL>linkedct</LABEL>
+	</PREFIX>
+
+	<PREFIX>
+	<NAMESPACE>http://bio2rdf.org/ns/mesh#</NAMESPACE>
+	<LABEL>meshr</LABEL>
+	</PREFIX>
+	
+	<SOURCE>
+		<ID>linkedct</ID>
+		<ENDPOINT>http://data.linkedct.org/sparql</ENDPOINT>
+		<VAR>?x</VAR>
+		<PAGESIZE>5000</PAGESIZE>
+		<RESTRICTION>?xrdf:typelinkedct:condition</RESTRICTION>
+		<PROPERTY>linkedct:condition_name</PROPERTY>
+	</SOURCE>
+	<TARGET>
+		<ID>mesh</ID>
+		<ENDPOINT>http://mesh.bio2rdf.org/sparql</ENDPOINT>
+		<VAR>?y</VAR>
+		<PAGESIZE>5000</PAGESIZE>
+		<RESTRICTION>?yrdf:typemeshr:Concept</RESTRICTION>
+		<PROPERTY>dc:title</PROPERTY>
+	</TARGET>
+	
+	<METRIC>jaccard(x.linkedct:condition_name,y.dc:title)</METRIC>
+	<ACCEPTANCE>
+		<THRESHOLD>0.9</THRESHOLD>
+		<RELATION>owl:sameAs</RELATION>
+		<FILE>diseases\_accepted.nt</FILE>
+	</ACCEPTANCE>
+	<REVIEW>
+		<THRESHOLD>0.8</THRESHOLD>
+		<RELATION>owl:sameAs</RELATION>
+		<FILE>diseases\_review.nt</FILE>
+	</REVIEW>
+</LIMES>
